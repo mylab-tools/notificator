@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  title: MyLab.Notificator API
+  title: MyLab.Notifier API
   version: '1'
 tags:
   - name: Contacts
