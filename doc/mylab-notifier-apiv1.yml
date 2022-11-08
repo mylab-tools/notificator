@@ -1,0 +1,174 @@
+openapi: 3.0.0
+info:
+  title: MyLab.Notificator API
+  version: '1'
+tags:
+  - name: Contacts
+  - name: Subjects
+paths:
+  '/subjects/{subject_id}/contacts':
+    
+    parameters:
+    - $ref: '#/components/parameters/SubjectId'
+    
+    post:
+      tags:
+      - Contacts
+      summary: Add new contact
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContactContent'
+      responses:
+        '200':
+          description: Successfully created
+          content:
+            text/plain:
+              schema:
+                type: string
+                description: New contact identifier
+                example: 7d2c9775edea4fb2ba05fba604c4c31f
+          
+    get:
+      tags:
+      - Contacts
+      summary: Get all subject contacts
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Contact'
+      
+  '/subjects/{subject_id}/contacts/{contact_id}':
+    
+    parameters:
+      - $ref: '#/components/parameters/SubjectId'
+      - $ref: '#/components/parameters/ContactId'
+      
+    delete:
+      tags:
+      - Contacts
+      summary: Delete contact
+      responses:
+        '200':
+          description: Success
+          
+    get:
+      tags:
+      - Contacts
+      summary: Get contact
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contact'
+                
+  '/subjects/{subject_id}/topics':
+    
+    parameters:
+      - $ref: '#/components/parameters/SubjectId'
+      
+    post:
+      tags: 
+      - Subjects
+      summary: Binds subject to topic
+      requestBody:
+        content:
+          text/plain:
+            schema:
+              type: string
+              description: topic
+              example: spectial-topic
+      responses:
+        '200':
+          description: Successfully binded
+          
+    get:
+      tags: 
+      - Subjects
+      summary: Gets subject's topics
+      responses:
+        '200':
+          description: Subject's topics
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/TopicList'
+      
+  
+components:
+  parameters:
+  
+    SubjectId:
+      in: path
+      required: true
+      name: subject_id
+      example: 2005-123223
+      description: Subject identifier
+      schema:
+        type: string
+        
+    ContactId:
+      in: path
+      required: true
+      name: contact_id
+      example: 7d2c9775edea4fb2ba05fba604c4c31f
+      description: Contact unique identifier
+      schema:
+        type: string
+  
+  schemas:   
+  
+    TopicList:
+      type: array
+      items: 
+        type: string
+      description: Contains topic list
+      example:
+      - special-topic
+      - another-topic
+    
+    Contact:
+      allOf:
+      - $ref: '#/components/schemas/ContactContent'
+      - type: object
+        description: Contact
+        properties:
+          id:
+            type: string 
+            description: Contact identifier
+            example: '7d2c9775edea4fb2ba05fba604c4c31f'
+        required:
+        - id
+        
+    ContactContent:
+      type: object
+      description: Contact content
+      properties:
+        value: 
+          type: string
+          description: Contact value
+          example: blabla@host.com
+        channelId:
+          type: string
+          description: Channel identifier
+        labels:
+          $ref: '#/components/schemas/ContactLabels'
+      required: 
+      - value
+      - channelId
+    
+    ContactLabels:
+      type: object 
+      description: Key-value labels
+      additionalProperties: true
+      example:
+        user_id: ololo123
+    
