@@ -20,30 +20,10 @@ using Xunit.Abstractions;
 
 namespace FuncTests
 {
-    public class ContactsApiV1Behavior : 
+    public partial class ContactsApiV1Behavior : 
         IClassFixture<TestApi<Program, INotifierContactApiV1>>,
         IClassFixture<TmpDbFixture<ContactsApiV1Behavior.InitialDbInitializer>>
     {
-        private readonly TestApi<Program, INotifierContactApiV1> _api;
-        private readonly ITestOutputHelper _output;
-        private readonly TmpDbFixture<InitialDbInitializer> _db;
-
-        /// <summary>
-        /// Initializes a new instance of <see cref="ContactsApiV1Behavior"/>
-        /// </summary>
-        public ContactsApiV1Behavior(ITestOutputHelper output, 
-            TestApi<Program, INotifierContactApiV1> api,
-            TmpDbFixture<InitialDbInitializer> db)
-        {
-            _output = output;
-            _db = db;
-            _db.Output = output;
-
-            _api = api;
-            _api.Output = output;
-            _api.ServiceOverrider = s => s.AddLogging(l => l.AddXUnit(output).AddFilter(_ => true));
-        }
-
         [Fact]
         public async Task ShouldCreateContact()
         {
@@ -54,8 +34,8 @@ namespace FuncTests
 
             var contact = new ContactContent()
             {
-                ChannelId = "foo",
-                Value = "bar@host.com",
+                ChannelId = "foo-channel",
+                Value = "foo@host.com",
                 Labels = new Dictionary<string, string>
                 {
                     {"foo-key", "foo-value"}
@@ -63,7 +43,7 @@ namespace FuncTests
             };
 
             //Act
-            var contactId = await api.AddContactAsync("baz", contact);
+            var contactId = await api.AddContactAsync("foo-subject", contact);
 
             await using var db = testDb.Use();
 
@@ -73,9 +53,9 @@ namespace FuncTests
 
             //Assert
             Assert.NotNull(contactFromDb);
-            Assert.Equal("foo", contactFromDb.ChannelId);
-            Assert.Equal("baz", contactFromDb.SubjectId);
-            Assert.Equal("bar@host.com", contactFromDb.Value);
+            Assert.Equal("foo-channel", contactFromDb.ChannelId);
+            Assert.Equal("foo-subject", contactFromDb.SubjectId);
+            Assert.Equal("foo@host.com", contactFromDb.Value);
             Assert.Equal(contactId, contactFromDb.Id);
             Assert.NotNull(contactFromDb.Labels);
             Assert.Single(contactFromDb.Labels);
@@ -117,8 +97,8 @@ namespace FuncTests
             //Arrange
             var contact = new ContactDb
             {
-                ChannelId = "foo",
-                Value = "bar@host.com",
+                ChannelId = "foo-channel",
+                Value = "foo@host.com",
                 Labels = new[]
                 {
                     new ContactLabelDb{ Name = "foo-key", Value = "foo-value"}
@@ -133,14 +113,14 @@ namespace FuncTests
             var api = _api.StartWithProxy(s => s.AddSingleton(testDb));
 
             //Act
-            var contacts = await api.GetContactsAsync("baz");
+            var contacts = await api.GetContactsAsync("foo-subject");
 
 
             //Assert
             Assert.NotNull(contacts);
             Assert.Single(contacts);
-            Assert.Equal("foo", contacts[0].ChannelId);
-            Assert.Equal("bar@host.com", contacts[0].Value);
+            Assert.Equal("foo-channel", contacts[0].ChannelId);
+            Assert.Equal("foo@host.com", contacts[0].Value);
             Assert.Equal(contactId, contacts[0].Id);
             Assert.NotNull(contacts[0].Labels);
             Assert.Single(contacts[0].Labels);
@@ -184,8 +164,8 @@ namespace FuncTests
             //Arrange
             var contact = new ContactDb
             {
-                ChannelId = "foo",
-                Value = "bar@host.com",
+                ChannelId = "foo-channel",
+                Value = "foo@host.com",
             };
 
             var dbInitiator = new AddInitialContact(contact);
@@ -210,8 +190,8 @@ namespace FuncTests
             //Arrange
             var initialContact = new ContactDb
             {
-                ChannelId = "foo",
-                Value = "bar@host.com",
+                ChannelId = "foo-channel",
+                Value = "foo@host.com",
                 Labels = new[]
                 {
                     new ContactLabelDb{ Name = "foo-key", Value = "foo-value"}
@@ -230,8 +210,8 @@ namespace FuncTests
 
             //Assert
             Assert.NotNull(contact);
-            Assert.Equal("foo", contact.ChannelId);
-            Assert.Equal("bar@host.com", contact.Value);
+            Assert.Equal("foo-channel", contact.ChannelId);
+            Assert.Equal("foo@host.com", contact.Value);
             Assert.Equal(contactId, contact.Id);
             Assert.NotNull(contact.Labels);
             Assert.Single(contact.Labels);
@@ -262,62 +242,6 @@ namespace FuncTests
             //Assert
             Assert.NotNull(requestException);
             Assert.Equal(HttpStatusCode.NotFound, requestException.StatusCode);
-        }
-
-        public static IEnumerable<object[]> GetBadCreateContactRequests()
-        {
-            var validContact = new ContactContent
-            {
-                ChannelId = "bar",
-                Value = "baz"
-            };
-
-            return new[]
-            {
-                new object[] { "Null subject", null, validContact },
-                new object[] { "Empty subject", "", validContact },
-                new object[] { "Whitespace subject", " \t", validContact },
-                new object[] { "Null contact", "foo", null },
-                new object[] { "Empty contact", "foo", new ContactContent() },
-                new object[] { "Undefined value contact", "foo", new ContactContent { ChannelId = "bar" } },
-                new object[] { "Undefined channel contact", "foo", new ContactContent { Value = "baz" } }
-            };
-        }
-
-        public class InitialDbInitializer : ITestDbInitializer
-        {
-            public async Task InitializeAsync(DataConnection dataConnection)
-            {
-                await dataConnection.CreateTableAsync<ContactDb>();
-                await dataConnection.CreateTableAsync<ContactLabelDb>();
-                await dataConnection.CreateTableAsync<TopicBindingDb>();
-            }
-        }
-
-        class AddInitialContact : ITestDbInitializer
-        {
-            private readonly ContactDb _contact;
-
-            public int ContactId { get; private set; }
-
-            public AddInitialContact(ContactDb contact)
-            {
-                _contact = contact;
-            }
-            public async Task InitializeAsync(DataConnection dataConnection)
-            {
-                ContactId = (int)(long)await dataConnection.InsertAsync(_contact);
-
-                if (_contact.Labels != null)
-                {
-                    await dataConnection.BulkCopyAsync(_contact.Labels.Select(l => new ContactLabelDb
-                    {
-                        ContactId = ContactId,
-                        Value = l.Value,
-                        Name = l.Name
-                    }));
-                }
-            }
         }
     }
 }
