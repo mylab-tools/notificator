@@ -5,6 +5,7 @@ info:
 tags:
   - name: Contacts
   - name: Subjects
+  - name: Notifications
 servers:
 - url: http://base.addr/v1
 paths:
@@ -16,7 +17,7 @@ paths:
     post:
       tags:
       - Contacts
-      summary: Adds new contact for subject
+      summary: Add new contact for subject
       requestBody:
         content:
           application/json:
@@ -82,7 +83,7 @@ paths:
     put:
       tags: 
       - Subjects
-      summary: Binds subject to topic
+      summary: Bind subject to topic
       responses:
         '200':
           description: Successfully binded
@@ -90,7 +91,7 @@ paths:
     delete:
       tags: 
       - Subjects
-      summary: Unbbinds subject to topic
+      summary: Unbbind subject to topic
       responses:
         '200':
           description: Successfully unbinded
@@ -103,7 +104,7 @@ paths:
     get:
       tags: 
       - Subjects
-      summary: Gets subject's topics
+      summary: Get subject's topics
       responses:
         '200':
           description: Subject's topics
@@ -111,6 +112,42 @@ paths:
             application/json:
               schema: 
                 $ref: '#/components/schemas/TopicList'
+                
+  '/notifications/by-subject/{subject_id}':
+  
+    parameters:
+      - $ref: '#/components/parameters/SubjectId'
+      
+    post:
+      tags: 
+      - Notifications
+      summary: Send notification to specific subject
+      requestBody:
+        content:
+          application/json:
+            schema: 
+              $ref: '#/components/schemas/Notification'
+      responses:
+        '200':
+          description: The notification was successfully accepted for sending 
+          
+  '/notifications/by-topic/{topic_id}':
+  
+    parameters:
+      - $ref: '#/components/parameters/TopicId'
+      
+    post:
+      tags: 
+      - Notifications
+      summary: Send notification to specific topic
+      requestBody:
+        content:
+          application/json:
+            schema: 
+              $ref: '#/components/schemas/Notification'
+      responses:
+        '200':
+          description: The notification was successfully accepted for sending 
       
   
 components:
@@ -142,6 +179,10 @@ components:
         example: some-topic
   
   schemas:   
+  
+    Notification:
+      type: object
+      description: Notification
   
     TopicList:
       type: array

@@ -6,7 +6,7 @@ namespace MyLab.Notifier.Models
 namespace MyLab.Notifier.Client.Models
 #endif
 {
-    public class Contact : ContactContent
+    public class ContactDto : ContactContentDto
     {
         [JsonProperty("id")] public int? Id { get; set; }
     }

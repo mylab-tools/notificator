@@ -22,16 +22,16 @@ namespace MyLab.Notifier.Controllers
         }
 
         [HttpPost("by-subject/{subject_id}")]
-        public async Task<IActionResult> AddContact([FromRoute(Name = "subject_id")] string subjectId, [FromBody] ContactContent contact)
+        public async Task<IActionResult> AddContact([FromRoute(Name = "subject_id")] string subjectId, [FromBody] ContactContentDto contact)
         {
             if (string.IsNullOrWhiteSpace(subjectId))
                 return BadRequest("'subject_id' not defined");
             if(contact == null)
-                return BadRequest("Contact data not defined");
+                return BadRequest("ContactDto data not defined");
             if (contact.ChannelId == null)
                 return BadRequest("Channel id is not defined");
             if (contact.Value == null)
-                return BadRequest("Contact value is not defined");
+                return BadRequest("ContactDto value is not defined");
 
             await using var dataConn = _db.Use();
 
@@ -79,7 +79,7 @@ namespace MyLab.Notifier.Controllers
             var contacts = await _db.DoOnce()
                 .Tab<ContactDb>()
                 .LoadWith(c => c.Labels)
-                .Select(c => new Contact
+                .Select(c => new ContactDto
                 {
                     Id = c.Id,
                     ChannelId = c.ChannelId,
@@ -126,7 +126,7 @@ namespace MyLab.Notifier.Controllers
             var found = await _db.DoOnce()
                 .Tab<ContactDb>()
                 .LoadWith(c => c.Labels)
-                .Select(c => new Contact
+                .Select(c => new ContactDto
                 {
                     Id = c.Id,
                     ChannelId = c.ChannelId,

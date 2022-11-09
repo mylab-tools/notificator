@@ -5,7 +5,7 @@ using MyLab.Notifier.Client.Models;
 namespace MyLab.Notifier.Client
 {
     /// <summary>
-    /// Contact API contract for v1
+    /// ContactDto API contract for v1
     /// </summary>
     [Api("v1/contacts")]
     public interface INotifierContactApiV1
@@ -25,7 +25,7 @@ namespace MyLab.Notifier.Client
         /// <param name="subjectId">subject identifier</param>
         /// <returns>subject contacts</returns>
         [Get("by-subject/{subject_id}")]
-        Task<Contact[]> GetContactsAsync([Path("subject_id")] string subjectId);
+        Task<ContactDto[]> GetContactsAsync([Path("subject_id")] string subjectId);
 
         /// <summary>
         /// Deletes contact by identifier
@@ -38,8 +38,8 @@ namespace MyLab.Notifier.Client
         /// Gets contact by identifier
         /// </summary>
         /// <param name="contactId">contact identifier</param>
-        /// <returns>Contact</returns>
+        /// <returns>ContactDto</returns>
         [Get("{contact_id}")]
-        Task<Contact> GetContactAsync([Path("contact_id")] int contactId);
+        Task<ContactDto> GetContactAsync([Path("contact_id")] int contactId);
     }
 }

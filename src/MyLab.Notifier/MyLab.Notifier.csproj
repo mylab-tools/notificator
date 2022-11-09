@@ -16,7 +16,8 @@
   <ItemGroup>
     <PackageReference Include="linq2db.MySql" Version="3.7.0" />
     <PackageReference Include="MyLab.Db" Version="1.3.5" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="MyLab.RabbitClient" Version="2.9.22" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
   <ItemGroup>

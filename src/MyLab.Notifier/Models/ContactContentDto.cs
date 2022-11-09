@@ -7,7 +7,7 @@ namespace MyLab.Notifier.Models
 namespace MyLab.Notifier.Client.Models
 #endif
 {
-    public class ContactContent
+    public class ContactContentDto
     {
         [JsonProperty("value")]
         public string? Value { get; set; }

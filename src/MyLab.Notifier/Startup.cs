@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MyLab.Db;
+using MyLab.RabbitClient;
 
 namespace MyLab.Notifier
 {
@@ -23,6 +24,8 @@ namespace MyLab.Notifier
         {
             services
                 .AddDbTools(Configuration, new MySqlDataProvider(ProviderName.MySql))
+                .AddRabbit(RabbitConnectionStrategy.Background)
+                .ConfigureRabbit(Configuration)
                 .AddControllers();
         }
 

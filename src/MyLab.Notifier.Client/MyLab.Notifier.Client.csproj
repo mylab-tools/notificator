@@ -5,8 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="..\MyLab.Notifier\Models\Contact.cs" Link="Contact.cs" />
-    <Compile Include="..\MyLab.Notifier\Models\ContactContent.cs" Link="ContactContent.cs" />
+    <Compile Include="..\MyLab.Notifier\Models\ContactContentDto.cs" Link="ContactContentDto.cs" />
+    <Compile Include="..\MyLab.Notifier\Models\ContactDto.cs" Link="ContactDto.cs" />
+    <Compile Include="..\MyLab.Notifier\Models\NotificationDto.cs" Link="NotificationDto.cs" />
   </ItemGroup>
 
   <ItemGroup>
