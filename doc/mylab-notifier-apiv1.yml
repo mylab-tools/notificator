@@ -5,8 +5,10 @@ info:
 tags:
   - name: Contacts
   - name: Subjects
+servers:
+- url: http://base.addr/v1
 paths:
-  '/subjects/{subject_id}/contacts':
+  '/contacts/by-subject/{subject_id}':
     
     parameters:
     - $ref: '#/components/parameters/SubjectId'
@@ -14,7 +16,7 @@ paths:
     post:
       tags:
       - Contacts
-      summary: Add new contact
+      summary: Adds new contact for subject
       requestBody:
         content:
           application/json:
@@ -26,9 +28,9 @@ paths:
           content:
             text/plain:
               schema:
-                type: string
-                description: New contact identifier
-                example: 7d2c9775edea4fb2ba05fba604c4c31f
+                $ref: '#/components/schemas/ContactId'
+        '400':
+          description: Bad request
           
     get:
       tags:
@@ -44,10 +46,9 @@ paths:
                 items:
                   $ref: '#/components/schemas/Contact'
       
-  '/subjects/{subject_id}/contacts/{contact_id}':
+  '/contacts/{contact_id}':
     
     parameters:
-      - $ref: '#/components/parameters/SubjectId'
       - $ref: '#/components/parameters/ContactId'
       
     delete:
@@ -69,26 +70,35 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Contact'
+        '404':
+          description: Contact not found
                 
-  '/subjects/{subject_id}/topics':
+  '/subjects/{subject_id}/topics/{topic_id}':
     
     parameters:
       - $ref: '#/components/parameters/SubjectId'
+      - $ref: '#/components/parameters/TopicId'
       
-    post:
+    put:
       tags: 
       - Subjects
       summary: Binds subject to topic
-      requestBody:
-        content:
-          text/plain:
-            schema:
-              type: string
-              description: topic
-              example: spectial-topic
       responses:
         '200':
           description: Successfully binded
+          
+    delete:
+      tags: 
+      - Subjects
+      summary: Unbbinds subject to topic
+      responses:
+        '200':
+          description: Successfully unbinded
+          
+  '/subjects/{subject_id}/topics':
+          
+    parameters:
+      - $ref: '#/components/parameters/SubjectId'
           
     get:
       tags: 
@@ -110,19 +120,26 @@ components:
       in: path
       required: true
       name: subject_id
-      example: 2005-123223
       description: Subject identifier
       schema:
-        type: string
+        $ref: '#/components/schemas/SubjectId'
         
     ContactId:
       in: path
       required: true
       name: contact_id
-      example: 7d2c9775edea4fb2ba05fba604c4c31f
       description: Contact unique identifier
       schema:
+        $ref: '#/components/schemas/ContactId'
+        
+    TopicId:
+      in: path
+      required: true
+      name: topic_id
+      description: Topic unique identifier
+      schema:
         type: string
+        example: some-topic
   
   schemas:   
   
@@ -142,9 +159,7 @@ components:
         description: Contact
         properties:
           id:
-            type: string 
-            description: Contact identifier
-            example: '7d2c9775edea4fb2ba05fba604c4c31f'
+            $ref: '#/components/schemas/ContactId'
         required:
         - id
         
@@ -157,8 +172,7 @@ components:
           description: Contact value
           example: blabla@host.com
         channelId:
-          type: string
-          description: Channel identifier
+          $ref: '#/components/schemas/ChannelId'
         labels:
           $ref: '#/components/schemas/ContactLabels'
       required: 
@@ -171,4 +185,21 @@ components:
       additionalProperties: true
       example:
         user_id: ololo123
+        
+    ContactId:
+      type: integer
+      format: Int32
+      description: Contact identifier
+      example: 3882
+      
+    SubjectId:
+      type: string
+      description: Subject identifier
+      example: e37179bc3c2245e0b138cc3ad6002212
     
+    ChannelId:
+      type: string
+      description: Channel identifier
+      enum:
+      - webpush
+      - email
