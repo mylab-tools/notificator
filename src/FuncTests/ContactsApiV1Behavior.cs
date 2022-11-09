@@ -14,7 +14,7 @@ using MyLab.DbTest;
 using MyLab.Notifier;
 using MyLab.Notifier.Client;
 using MyLab.Notifier.Client.Models;
-using MyLab.Notifier.Dal;
+using MyLab.Notifier.Share.Dal;
 using Xunit;
 using Xunit.Abstractions;
 

@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MyLab.Notifier.Client\MyLab.Notifier.Client.csproj" />
+    <ProjectReference Include="..\MyLab.Notifier.Share\MyLab.Notifier.Share.csproj" />
     <ProjectReference Include="..\MyLab.Notifier\MyLab.Notifier.csproj" />
   </ItemGroup>
 

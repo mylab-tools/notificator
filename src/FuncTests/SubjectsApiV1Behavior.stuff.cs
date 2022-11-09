@@ -7,7 +7,7 @@ using MyLab.ApiClient.Test;
 using MyLab.DbTest;
 using MyLab.Notifier;
 using MyLab.Notifier.Client;
-using MyLab.Notifier.Dal;
+using MyLab.Notifier.Share.Dal;
 using Xunit.Abstractions;
 
 namespace FuncTests

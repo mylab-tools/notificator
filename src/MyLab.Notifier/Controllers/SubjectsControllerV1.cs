@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using LinqToDB;
 using Microsoft.AspNetCore.Mvc;
 using MyLab.Db;
-using MyLab.Notifier.Dal;
+using MyLab.Notifier.Share.Dal;
 
 namespace MyLab.Notifier.Controllers
 {
