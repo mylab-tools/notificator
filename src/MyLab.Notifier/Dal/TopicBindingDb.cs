@@ -6,7 +6,7 @@ namespace MyLab.Notifier.Dal
     [Table("topic_bindings")]
     public class TopicBindingDb
     {
-        [Column("subject_id")] public string? SubjectId { get; set; }
-        [Column("topic")] public string? Topic { get; set; }
+        [Column("subject_id", IsPrimaryKey = true)] public string? SubjectId { get; set; }
+        [Column("topic_id", IsPrimaryKey = true)] public string? TopicId { get; set; }
     }
 }
