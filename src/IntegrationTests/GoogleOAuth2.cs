@@ -1,8 +1,8 @@
-using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Google.Apis.Auth.OAuth2;
-using Google.Apis.Auth.OAuth2.Flows;
 using Google.Apis.Http;
-using Newtonsoft.Json;
+using Xunit;
 using Xunit.Abstractions;
 
 namespace IntegrationTests
@@ -58,7 +58,7 @@ namespace IntegrationTests
             {
                 var httpMessageHandler = new HttpClientHandler()
                 {
-                    ServerCertificateCustomValidationCallback = (_, _, _, _) => true
+                    ServerCertificateCustomValidationCallback = (message, certificate2, arg3, arg4) => true
                 };
                 var handler = new ConfigurableMessageHandler(httpMessageHandler);
                 return new ConfigurableHttpClient(handler);

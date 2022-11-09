@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\MyLab.Notifier\Models\Contact.cs" Link="Contact.cs" />
+    <Compile Include="..\MyLab.Notifier\Models\ContactContent.cs" Link="ContactContent.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MyLab.ApiClient" Version="3.15.25" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+</Project>
