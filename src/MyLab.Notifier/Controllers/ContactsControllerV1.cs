@@ -65,9 +65,9 @@ namespace MyLab.Notifier.Controllers
         }
 
         [HttpPost("by-subject")]
-        public Task<IActionResult> AddContact()
+        public IActionResult AddContact()
         {
-            return Task.FromResult<IActionResult>(BadRequest("'subject_id' not defined"));
+            return BadRequest("'subject_id' not defined");
         }
 
         [HttpGet("by-subject/{subject_id}")]
@@ -92,9 +92,9 @@ namespace MyLab.Notifier.Controllers
         }
 
         [HttpGet("by-subject")]
-        public Task<IActionResult> GetContacts()
+        public IActionResult GetContacts()
         {
-            return Task.FromResult<IActionResult>(BadRequest("'subject_id' not defined"));
+            return BadRequest("'subject_id' not defined");
         }
 
         [HttpDelete("{contact_id}")]
@@ -112,9 +112,9 @@ namespace MyLab.Notifier.Controllers
         }
 
         [HttpDelete]
-        public Task<IActionResult> DeleteContact()
+        public IActionResult DeleteContact()
         {
-            return Task.FromResult<IActionResult>(BadRequest("'contact_id' not defined"));
+            return BadRequest("'contact_id' not defined");
         }
 
         [HttpGet("{contact_id}")]
@@ -142,9 +142,9 @@ namespace MyLab.Notifier.Controllers
         }
 
         [HttpGet]
-        public Task<IActionResult> GetContact()
+        public IActionResult GetContact()
         {
-            return Task.FromResult<IActionResult>(BadRequest("'contact_id' not defined"));
+            return BadRequest("'contact_id' not defined");
         }
     }
 }

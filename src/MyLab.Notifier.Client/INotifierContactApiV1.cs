@@ -17,7 +17,7 @@ namespace MyLab.Notifier.Client
         /// <param name="contact">new contact</param>
         /// <returns>new contact identifier</returns>
         [Post("by-subject/{subject_id}")]
-        Task<int> AddContactAsync([Path("subject_id")] string subjectId, [JsonContent] ContactContent contact);
+        Task<int> AddContactAsync([Path("subject_id")] string subjectId, [JsonContent] ContactContentDto contact);
 
         /// <summary>
         /// Gets subject contacts

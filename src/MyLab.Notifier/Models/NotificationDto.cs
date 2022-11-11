@@ -6,5 +6,6 @@ namespace MyLab.Notifier.Client.Models
 {
     public class NotificationDto
     {
+        
     }
 }
