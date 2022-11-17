@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using MyLab.Notifier.Models;
 using MyLab.Notifier.Services;
+using MyLab.Notifier.Share.Models;
 
 namespace MyLab.Notifier.Controllers
 {
@@ -61,12 +61,23 @@ namespace MyLab.Notifier.Controllers
         {
             if (notification == null)
             {
+                errorDescription = "Notification is not defined";
+                return false;
+            }
+
+            if(string.IsNullOrWhiteSpace(notification.Title))
+            {
+                errorDescription = "Notification title is not defined";
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(notification.Body))
+            {
                 errorDescription = "Notification body is not defined";
                 return false;
             }
 
-            throw new NotImplementedException();
-
+            errorDescription = null;
             return true;
         }
     }

@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace MyLab.Notifier.Models
+namespace MyLab.Notifier.Share.Models
 {
     public class SendNotificationMqDto
     {

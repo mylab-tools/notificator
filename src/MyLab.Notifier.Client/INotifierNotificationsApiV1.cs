@@ -16,14 +16,14 @@ namespace MyLab.Notifier.Client
         /// <param name="subjectId">subject unique identifier</param>
         /// <param name="notification">notification content</param>
         [Post("by-subject/{subject_id}")]
-        Task SentNotificationToSubject([Path("subject_id")] string subjectId, [JsonContent] NotificationDto notification);
+        Task SentNotificationToSubjectAsync([Path("subject_id")] string subjectId, [JsonContent] NotificationDto notification);
 
         /// <summary>
         /// Sends notification to specific topic
         /// </summary>
         /// <param name="topicId">topic unique identifier</param>
         /// <param name="notification">notification content</param>
-        [Post("by-subject/{subject_id}")]
-        Task SentNotificationToTopic([Path("subject_id")] string topicId, [JsonContent] NotificationDto notification);
+        [Post("by-topic/{subject_id}")]
+        Task SentNotificationToTopicAsync([Path("subject_id")] string topicId, [JsonContent] NotificationDto notification);
     }
 }

@@ -9,7 +9,7 @@ using MyLab.Notifier.Client;
 using MyLab.Notifier.Share.Dal;
 using Xunit;
 
-namespace FuncTests
+namespace ApiFuncTests
 {
     public partial class SubjectsApiV1Behavior : 
         IClassFixture<TestApi<Program, INotifierSubjectApiV1>>,

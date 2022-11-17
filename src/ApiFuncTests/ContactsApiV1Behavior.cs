@@ -1,12 +1,8 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using LinqToDB;
-using LinqToDB.Data;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using MyLab.ApiClient;
 using MyLab.ApiClient.Test;
 using MyLab.Db;
@@ -16,9 +12,8 @@ using MyLab.Notifier.Client;
 using MyLab.Notifier.Client.Models;
 using MyLab.Notifier.Share.Dal;
 using Xunit;
-using Xunit.Abstractions;
 
-namespace FuncTests
+namespace ApiFuncTests
 {
     public partial class ContactsApiV1Behavior : 
         IClassFixture<TestApi<Program, INotifierContactApiV1>>,
@@ -32,7 +27,7 @@ namespace FuncTests
 
             var api = _api.StartWithProxy(s => s.AddSingleton(testDb));
 
-            var contact = new ContactContent()
+            var contact = new ContactContentDto()
             {
                 ChannelId = "foo-channel",
                 Value = "foo@host.com",
@@ -65,7 +60,7 @@ namespace FuncTests
 
         [Theory]
         [MemberData(nameof(GetBadCreateContactRequests))]
-        public async Task ShouldFailWhenAddContactBadRequest(string desc, string subjectId, ContactContent contact)
+        public async Task ShouldFailWhenAddContactBadRequest(string desc, string subjectId, ContactContentDto contact)
         {
             //Arrange
             var testDb = await _db.CreateDbAsync();
@@ -105,7 +100,7 @@ namespace FuncTests
                 }
             };
 
-            var dbInitiator = new AddInitialContact(contact);
+            var dbInitiator = new AddInitialContactDbIniter(contact);
             var testDb = await _db.CreateDbAsync(dbInitiator);
 
             var contactId = dbInitiator.ContactId;
@@ -168,7 +163,7 @@ namespace FuncTests
                 Value = "foo@host.com",
             };
 
-            var dbInitiator = new AddInitialContact(contact);
+            var dbInitiator = new AddInitialContactDbIniter(contact);
             var testDb = await _db.CreateDbAsync(dbInitiator);
 
             var contactId = dbInitiator.ContactId;
@@ -198,7 +193,7 @@ namespace FuncTests
                 }
             };
 
-            var dbInitiator = new AddInitialContact(initialContact);
+            var dbInitiator = new AddInitialContactDbIniter(initialContact);
             var testDb = await _db.CreateDbAsync(dbInitiator);
 
             var contactId = dbInitiator.ContactId;

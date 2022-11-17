@@ -1,8 +1,15 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
+using LinqToDB;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MyLab.Db;
-using MyLab.Notifier.Models;
+using MyLab.Log.Dsl;
 using MyLab.Notifier.Options;
+using MyLab.Notifier.Share.Dal;
+using MyLab.Notifier.Share.Models;
+using MyLab.RabbitClient.Publishing;
 
 namespace MyLab.Notifier.Services
 {
@@ -14,29 +21,103 @@ namespace MyLab.Notifier.Services
 
     class SenderService : ISenderService
     {
+        private readonly IRabbitPublisher _publisher;
         private readonly IDbManager _dbManager;
         private readonly NotifierOptions _options;
+        private readonly IDslLogger _logger;
 
-        public SenderService(IDbManager dbManager, IOptions<NotifierOptions> options)
-            :this(dbManager, options.Value)
+        public SenderService(
+            IRabbitPublisher publisher, 
+            IDbManager dbManager, 
+            IOptions<NotifierOptions> options,
+            ILogger<SenderService> log)
+            :this(publisher, dbManager, options.Value, log)
         {
             
         }
 
-        public SenderService(IDbManager dbManager, NotifierOptions options)
+        public SenderService(
+            IRabbitPublisher publisher, 
+            IDbManager dbManager, 
+            NotifierOptions options,
+            ILogger<SenderService> log)
         {
+            _publisher = publisher;
             _dbManager = dbManager;
             _options = options;
+            _logger = log.Dsl();
         }
 
-        public Task SendNotificationToSubjectAsync(string subjectId, NotificationDto notification)
+        public async Task SendNotificationToSubjectAsync(string subjectId, NotificationDto notification)
         {
-            throw new System.NotImplementedException();
+            var contacts = await _dbManager.DoOnce()
+                .Tab<ContactDb>()
+                .Where(c => c.SubjectId == subjectId)
+                .GroupBy(c => c.ChannelId, c => c.Value)
+                .ToDictionaryAsync(g => g.Key, g => g);
+
+            foreach (var contact in contacts)
+            {
+                var channelId = contact.Key;
+
+                if (string.IsNullOrWhiteSpace(channelId))
+                    throw new InvalidOperationException("Channel id is not defined");
+
+                var mqNotifDto = new SendNotificationMqDto
+                {
+                    Contacts = contact.Value.ToArray(),
+                    Notification = notification
+                };
+
+                try
+                {
+                    _publisher
+                        .IntoDefault(channelId)
+                        .SetJsonContent(mqNotifDto)
+                        .Publish();
+                }
+                catch (Exception e)
+                {
+                    _logger.Error("Send notification error", e)
+                        .AndFactIs("channel-id", channelId)
+                        .Write();
+                }
+            }
         }
 
-        public Task SendNotificationToTopicAsync(string subjectId, NotificationDto notification)
+        public Task SendNotificationToTopicAsync(string topicId, NotificationDto notification)
         {
-            throw new System.NotImplementedException();
+            if(_options.Channels == null) return Task.CompletedTask;
+
+            foreach (var optionsChannel in _options.Channels)
+            {
+                var channelId = optionsChannel.Id;
+
+                if (string.IsNullOrWhiteSpace(channelId))
+                    throw new InvalidOperationException("Channel id is not defined");
+
+                var mqNotifDto = new SendNotificationMqDto
+                {
+                    Topic = topicId,
+                    Notification = notification
+                };
+
+                try
+                {
+                    _publisher
+                        .IntoDefault(channelId)
+                        .SetJsonContent(mqNotifDto)
+                        .Publish();
+                }
+                catch (Exception e)
+                {
+                    _logger.Error("Send notification error", e)
+                        .AndFactIs("channel-id", channelId)
+                        .Write();
+                }
+            }
+
+            return Task.CompletedTask;
         }
     }
 }

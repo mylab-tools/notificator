@@ -10,7 +10,7 @@ using MyLab.Notifier.Client;
 using MyLab.Notifier.Share.Dal;
 using Xunit.Abstractions;
 
-namespace FuncTests
+namespace ApiFuncTests
 {
     public partial class SubjectsApiV1Behavior
     {

@@ -13,7 +13,7 @@ using MyLab.Notifier.Client.Models;
 using MyLab.Notifier.Share.Dal;
 using Xunit.Abstractions;
 
-namespace FuncTests
+namespace ApiFuncTests
 {
     public partial class ContactsApiV1Behavior
     {
@@ -39,7 +39,7 @@ namespace FuncTests
 
         public static IEnumerable<object[]> GetBadCreateContactRequests()
         {
-            var validContact = new ContactContent
+            var validContact = new ContactContentDto
             {
                 ChannelId = "foo-channel",
                 Value = "foo@host.com"
@@ -51,9 +51,9 @@ namespace FuncTests
                 new object[] { "Empty subject", "", validContact },
                 new object[] { "Whitespace subject", " \t", validContact },
                 new object[] { "Null contact", "foo", null },
-                new object[] { "Empty contact", "foo", new ContactContent() },
-                new object[] { "Undefined value contact", "foo", new ContactContent { ChannelId = "foo-channel" } },
-                new object[] { "Undefined channel contact", "foo", new ContactContent { Value = "foo@host.com" } }
+                new object[] { "Empty contact", "foo", new ContactContentDto() },
+                new object[] { "Undefined value contact", "foo", new ContactContentDto { ChannelId = "foo-channel" } },
+                new object[] { "Undefined channel contact", "foo", new ContactContentDto { Value = "foo@host.com" } }
             };
         }
 
@@ -67,13 +67,13 @@ namespace FuncTests
             }
         }
 
-        private class AddInitialContact : ITestDbInitializer
+        private class AddInitialContactDbIniter : ITestDbInitializer
         {
             private readonly ContactDb _contact;
 
             public int ContactId { get; private set; }
 
-            public AddInitialContact(ContactDb contact)
+            public AddInitialContactDbIniter(ContactDb contact)
             {
                 _contact = contact;
             }

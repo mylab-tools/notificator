@@ -2,11 +2,20 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>$(DefineConstants)TRACE;SHARELIB</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>$(DefineConstants)TRACE;SHARELIB</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="MyLab.Db" Version="1.3.5" />
-    <PackageReference Include="MyLab.RabbitClient" Version="2.9.22" />
+    <PackageReference Include="MyLab.RabbitClient" Version="2.10.24" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 

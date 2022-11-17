@@ -1,9 +1,10 @@
 ﻿using Newtonsoft.Json;
 
-#if SERVER_APP
-namespace MyLab.Notifier.Models
-#else
+#if CLIENTLIB
 namespace MyLab.Notifier.Client.Models
+#endif
+#if SHARELIB
+namespace MyLab.Notifier.Share.Models
 #endif
 {
     public class ContactDto : ContactContentDto
