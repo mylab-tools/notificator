@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using LinqToDB;
 using Microsoft.Extensions.Logging;
@@ -69,11 +70,16 @@ namespace MyLab.Notifier.Services
                     Notification = notification
                 };
 
+                var mqEnvelop = new EnvelopMqDto
+                {
+                    SendNotificationCmd = mqNotifDto
+                };
+
                 try
                 {
                     _publisher
                         .IntoDefault(channelId)
-                        .SetJsonContent(mqNotifDto)
+                        .SetJsonContent(mqEnvelop)
                         .Publish();
                 }
                 catch (Exception e)
@@ -102,11 +108,16 @@ namespace MyLab.Notifier.Services
                     Notification = notification
                 };
 
+                var mqEnvelop = new EnvelopMqDto
+                {
+                    SendNotificationCmd = mqNotifDto
+                };
+
                 try
                 {
                     _publisher
                         .IntoDefault(channelId)
-                        .SetJsonContent(mqNotifDto)
+                        .SetJsonContent(mqEnvelop)
                         .Publish();
                 }
                 catch (Exception e)

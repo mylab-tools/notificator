@@ -28,7 +28,12 @@ namespace ApiFuncTests
 
             _api = api;
             _api.Output = output;
-            _api.ServiceOverrider = s => s.AddLogging(l => l.AddXUnit(output).AddFilter(_ => true));
+            _api.ServiceOverrider = s => s
+                .AddLogging(l => l
+                    .AddXUnit(output)
+                    .AddFilter(_ => true)
+                )
+                .AddRabbitEmulation();
         }
 
         public class InitialDbInitializer : ITestDbInitializer

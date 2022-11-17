@@ -21,34 +21,10 @@ using NotificationDto = MyLab.Notifier.Client.Models.NotificationDto;
 
 namespace ApiFuncTests
 {
-    public class NotificationsApiV1Behavior :
+    public partial class NotificationsApiV1Behavior :
         IClassFixture<TestApi<Program, INotifierNotificationsApiV1>>,
         IClassFixture<TmpDbFixture<NotificationsApiV1Behavior.InitialDbInitializer>>
     {
-        private readonly ITestOutputHelper _output;
-        private readonly TmpDbFixture<InitialDbInitializer> _db;
-        private readonly TestApi<Program, INotifierNotificationsApiV1> _api;
-
-        public NotificationsApiV1Behavior(ITestOutputHelper output,
-            TestApi<Program, INotifierNotificationsApiV1> api,
-            TmpDbFixture<InitialDbInitializer> db)
-        {
-            _output = output;
-            _db = db;
-            _db.Output = output;
-
-            _api = api;
-            _api.Output = output;
-            _api.ServiceOverrider = s =>
-                s.AddLogging(l => l.AddXUnit(output).AddFilter(_ => true))
-                    .ConfigureRabbit(opt => 
-                        opt.DefaultPub = new PublishOptions
-                        {
-                            Exchange = "foo-exchange"
-                        }
-                    );
-        }
-
         [Fact]
         public async Task ShouldSendMqMessageForAllSubjectContacts()
         {
@@ -91,7 +67,7 @@ namespace ApiFuncTests
             //Act
             await api.SentNotificationToSubjectAsync("subject", notification);
 
-            var mqMsg = testMqConsumer.LastMessage;
+            var mqMsg = testMqConsumer.LastMessage?.SendNotificationCmd;
 
             //Assert
             Assert.NotNull(mqMsg);
@@ -149,8 +125,8 @@ namespace ApiFuncTests
             //Act
             await api.SentNotificationToSubjectAsync("subject", notification);
 
-            var ch1Msg = channel1TestMqConsumer.LastMessage;
-            var ch2Msg = channel2TestMqConsumer.LastMessage;
+            var ch1Msg = channel1TestMqConsumer.LastMessage?.SendNotificationCmd;
+            var ch2Msg = channel2TestMqConsumer.LastMessage?.SendNotificationCmd;
 
             //Assert
             Assert.NotNull(ch1Msg);
@@ -193,7 +169,7 @@ namespace ApiFuncTests
             //Act
             await api.SentNotificationToTopicAsync("topic", notification);
 
-            var mqMsg = testMqConsumer.LastMessage;
+            var mqMsg = testMqConsumer.LastMessage?.SendNotificationCmd;
 
             //Assert
             Assert.NotNull(mqMsg);
@@ -232,8 +208,8 @@ namespace ApiFuncTests
             //Act
             await api.SentNotificationToTopicAsync(topicId, notification);
 
-            var fooChMsg = channel1MqConsumer.LastMessage;
-            var barChMsg = channel2MqConsumer.LastMessage;
+            var fooChMsg = channel1MqConsumer.LastMessage?.SendNotificationCmd;
+            var barChMsg = channel2MqConsumer.LastMessage?.SendNotificationCmd;
 
             //Assert
             Assert.NotNull(fooChMsg);
@@ -248,44 +224,5 @@ namespace ApiFuncTests
             Assert.Equal(notification.Title, barChMsg.Notification.Title);
             Assert.Equal(notification.Body, barChMsg.Notification.Body);
         }
-
-        public class AddContactsDbIniter : ITestDbInitializer
-        {
-            private readonly ContactDb[] _contacts;
-
-            public AddContactsDbIniter(params ContactDb[] contacts)
-            {
-                _contacts = contacts;
-            }
-
-            public async Task InitializeAsync(DataConnection dataConnection)
-            {
-                await dataConnection.BulkCopyAsync(_contacts);
-            }
-        }
-
-        public class InitialDbInitializer : ITestDbInitializer
-        {
-            public async Task InitializeAsync(DataConnection dataConnection)
-            {
-                await dataConnection.CreateTableAsync<ContactDb>();
-            }
-        }
-
-        class TestMqConsumer : RabbitConsumer<SendNotificationMqDto>
-        {
-            public SendNotificationMqDto LastMessage { get; private set; }
-
-            protected override async Task ConsumeMessageAsync(ConsumedMessage<SendNotificationMqDto> consumedMessage)
-            {
-                LastMessage = consumedMessage.Content;
-            }
-        }
-
-        NotificationDto GenerateNotification() => new NotificationDto
-        {
-            Title = Guid.NewGuid().ToString("N"),
-            Body = Guid.NewGuid().ToString("N"),
-        };
     }
 }
