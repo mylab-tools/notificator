@@ -1,6 +1,6 @@
 ﻿using LinqToDB.Mapping;
 
-namespace MyLab.Notifier.Share.Dal
+namespace MyLab.Notifier.Dal
 {
 
     [Table("topic_bindings")]

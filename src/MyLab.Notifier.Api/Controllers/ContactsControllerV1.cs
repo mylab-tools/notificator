@@ -5,7 +5,7 @@ using LinqToDB;
 using LinqToDB.Data;
 using Microsoft.AspNetCore.Mvc;
 using MyLab.Db;
-using MyLab.Notifier.Share.Dal;
+using MyLab.Notifier.Dal;
 using MyLab.Notifier.Share.Models;
 
 namespace MyLab.Notifier.Controllers
