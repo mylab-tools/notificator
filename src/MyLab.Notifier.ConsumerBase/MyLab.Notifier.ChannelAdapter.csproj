@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MyLab.RabbitClient" Version="2.10.24" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MyLab.Notifier.Share\MyLab.Notifier.Share.csproj" />
+  </ItemGroup>
+
+</Project>

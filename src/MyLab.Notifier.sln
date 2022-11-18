@@ -3,15 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyLab.Notifier", "MyLab.Notifier\MyLab.Notifier.csproj", "{C1D61B35-B3B1-42FB-A0F1-14056D1CF39A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyLab.Notifier.Api", "MyLab.Notifier.Api\MyLab.Notifier.Api.csproj", "{C1D61B35-B3B1-42FB-A0F1-14056D1CF39A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyLab.Notifier.Client", "MyLab.Notifier.Client\MyLab.Notifier.Client.csproj", "{F24DE091-1F6D-4D18-B8EE-2FF3C50F8AC0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiFuncTests", "ApiFuncTests\ApiFuncTests.csproj", "{5B98B3E4-63B1-442C-BA18-327EA88D78A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FuncTests.Api", "FuncTests.Api\FuncTests.Api.csproj", "{5B98B3E4-63B1-442C-BA18-327EA88D78A0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntegrationTests", "IntegrationTests\IntegrationTests.csproj", "{E3365C9A-3491-449B-9347-57ABC7DE9F1D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntegrationTests.Google", "IntegrationTests.Google\IntegrationTests.Google.csproj", "{E3365C9A-3491-449B-9347-57ABC7DE9F1D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyLab.Notifier.Share", "MyLab.Notifier.Share\MyLab.Notifier.Share.csproj", "{50D12005-93E8-4703-A981-3F9C70AB1806}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyLab.Notifier.ChannelAdapter", "MyLab.Notifier.ConsumerBase\MyLab.Notifier.ChannelAdapter.csproj", "{87C76B86-51F4-4D39-9CEC-667121132C2A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuncTests.ChannelAdapter", "FuncTests.ChannelAdapter\FuncTests.ChannelAdapter.csproj", "{B087BD95-7A1F-4356-B527-DE5DE01AFBD4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +43,14 @@ Global
 		{50D12005-93E8-4703-A981-3F9C70AB1806}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{50D12005-93E8-4703-A981-3F9C70AB1806}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{50D12005-93E8-4703-A981-3F9C70AB1806}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87C76B86-51F4-4D39-9CEC-667121132C2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87C76B86-51F4-4D39-9CEC-667121132C2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87C76B86-51F4-4D39-9CEC-667121132C2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87C76B86-51F4-4D39-9CEC-667121132C2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B087BD95-7A1F-4356-B527-DE5DE01AFBD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B087BD95-7A1F-4356-B527-DE5DE01AFBD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B087BD95-7A1F-4356-B527-DE5DE01AFBD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B087BD95-7A1F-4356-B527-DE5DE01AFBD4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

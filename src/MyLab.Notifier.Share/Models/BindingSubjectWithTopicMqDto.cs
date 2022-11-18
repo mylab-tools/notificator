@@ -15,7 +15,7 @@ namespace MyLab.Notifier.Share.Models
         /// <summary>
         /// Channel specific topic identifier
         /// </summary>
-        [JsonProperty("topic")]
-        public string Topic { get; set; }
+        [JsonProperty("topicId")]
+        public string TopicId { get; set; }
     }
 }

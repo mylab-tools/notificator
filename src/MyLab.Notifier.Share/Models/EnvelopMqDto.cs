@@ -16,8 +16,8 @@
         public BindingSubjectWithTopicMqDto BindSubjectToTopicCmd { get; set; }
 
         /// <summary>
-        /// Unbind subject to topic command
+        /// Unbind subject from topic command
         /// </summary>
-        public BindingSubjectWithTopicMqDto UnbindSubjectToTopicCmd { get; set; }
+        public BindingSubjectWithTopicMqDto UnbindSubjectFromTopicCmd { get; set; }
     }
 }

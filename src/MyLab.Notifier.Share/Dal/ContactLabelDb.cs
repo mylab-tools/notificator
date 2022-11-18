@@ -1,6 +1,6 @@
 ﻿using LinqToDB.Mapping;
 
-namespace MyLab.Notifier.Dal
+namespace MyLab.Notifier.Share.Dal
 {
     [Table("labels")]
     public class ContactLabelDb

@@ -7,8 +7,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MyLab.Db;
 using MyLab.Log.Dsl;
-using MyLab.Notifier.Dal;
 using MyLab.Notifier.Options;
+using MyLab.Notifier.Share.Dal;
 using MyLab.Notifier.Share.Models;
 using MyLab.RabbitClient.Publishing;
 
