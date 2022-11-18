@@ -6,7 +6,7 @@ using MyLab.Db;
 using MyLab.DbTest;
 using MyLab.Notifier;
 using MyLab.Notifier.Client;
-using MyLab.Notifier.Share.Dal;
+using MyLab.Notifier.Dal;
 using Xunit;
 
 namespace ApiFuncTests
