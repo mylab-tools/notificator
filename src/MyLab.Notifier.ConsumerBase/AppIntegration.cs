@@ -19,7 +19,18 @@ namespace MyLab.Notifier.ChannelAdapter
             return services.AddRabbit()
                 .ConfigureRabbit(configuration)
                 .Configure<NotifierChannelAdapterOptions>(configuration.GetSection("ChannelAdapter"))
-                .AddRabbitConsumer<NotifierChannelAdapterOptions, NotifierEnvelopConsumer<TChannel>>(opt => opt.MqQueue);
+                .AddRabbitConsumer<NotifierChannelAdapterOptions, NotifierEnvelopConsumer<TChannel>>(opt => opt.MqQueue); 
+        }
+
+        /// <summary>
+        /// Adds notifier channel logic
+        /// </summary>
+        public static IServiceCollection AddNotifierChannelLogic(this IServiceCollection services, NotifierEnvelopConsumer<INotifierChannel> consumer, IConfiguration configuration)
+        {
+            return services.AddRabbit()
+                .ConfigureRabbit(configuration)
+                .Configure<NotifierChannelAdapterOptions>(configuration.GetSection("ChannelAdapter"))
+                .AddRabbitConsumer<NotifierChannelAdapterOptions, NotifierEnvelopConsumer<INotifierChannel>>(consumer, opt => opt.MqQueue);
         }
     }
 }

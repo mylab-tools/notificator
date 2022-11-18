@@ -19,17 +19,17 @@ namespace MyLab.Notifier.Share
         Task SendNotificationToTopicAsync(string topicId, NotificationDto notification);
 
         /// <summary>
-        /// Binds subject to topic
+        /// Binds contacts to topic
         /// </summary>
-        /// <param name="subjectId">subject identifier</param>
+        /// <param name="contacts">contacts</param>
         /// <param name="topicId">topic identifier</param>
-        Task BindSubjectToTopicAsync(string subjectId, string topicId);
+        Task BindSubjectToTopicAsync(string[] contacts, string topicId);
 
         /// <summary>
-        /// Unbinds subject from topic
+        /// Unbinds contacts from topic
         /// </summary>
-        /// <param name="subjectId">subject identifier</param>
+        /// <param name="contacts">contacts</param>
         /// <param name="topicId">topic identifier</param>
-        Task UnbindSubjectFromTopicAsync(string subjectId, string topicId);
+        Task UnbindSubjectFromTopicAsync(string[] contacts, string topicId);
     }
 }

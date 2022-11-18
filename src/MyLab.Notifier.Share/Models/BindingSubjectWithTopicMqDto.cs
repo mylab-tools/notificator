@@ -3,15 +3,15 @@
 namespace MyLab.Notifier.Share.Models
 {
     /// <summary>
-    /// Binding subject with topic command
+    /// Binding command with contacts and topic 
     /// </summary>
     public class BindingSubjectWithTopicMqDto
     {
         /// <summary>
-        /// Subject identifier
+        /// Contacts
         /// </summary>
-        [JsonProperty("subjectId")]
-        public string SubjectId { get; set; }
+        [JsonProperty("contacts")]
+        public string[] Contacts { get; set; }
         /// <summary>
         /// Channel specific topic identifier
         /// </summary>

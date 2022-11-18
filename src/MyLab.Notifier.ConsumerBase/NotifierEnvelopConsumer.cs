@@ -8,23 +8,23 @@ using MyLab.RabbitClient.Consuming;
 
 namespace MyLab.Notifier.ChannelAdapter
 {
-    class NotifierEnvelopConsumer<TChannel> : RabbitConsumer<EnvelopMqDto>
+    public class NotifierEnvelopConsumer<TChannel> : RabbitConsumer<EnvelopMqDto>
         where TChannel : INotifierChannel
     {
         private readonly TChannel _channelLogic;
         private readonly IDslLogger _log;
 
-        public NotifierEnvelopConsumer(TChannel channelLogic, ILogger<NotifierEnvelopConsumer<TChannel>> logger)
+        public NotifierEnvelopConsumer(TChannel channelLogic, ILogger<NotifierEnvelopConsumer<TChannel>> logger = null)
         {
             _channelLogic = channelLogic;
-            _log = logger.Dsl();
+            _log = logger?.Dsl();
         }
 
         protected override async Task ConsumeMessageAsync(ConsumedMessage<EnvelopMqDto> consumedMessage)
         {
             if (consumedMessage.Content == null)
             {
-                _log.Warning("Input envelop is null").Write();
+                _log?.Warning("Input envelop is null").Write();
                 return;
             }
 
@@ -40,7 +40,7 @@ namespace MyLab.Notifier.ChannelAdapter
                     }
                     catch (Exception e)
                     {
-                        _log.Error("Send notification to topic error", e).Write();
+                        _log?.Error("Send notification to topic error", e).Write();
                     }
                 }
 
@@ -52,7 +52,7 @@ namespace MyLab.Notifier.ChannelAdapter
                     }
                     catch (Exception e)
                     {
-                        _log.Error("Send notification to contacts error", e).Write();
+                        _log?.Error("Send notification to contacts error", e).Write();
                     }
                 }
             }
@@ -61,11 +61,11 @@ namespace MyLab.Notifier.ChannelAdapter
             {
                 try
                 {
-                    await _channelLogic.BindSubjectToTopicAsync(envlp.BindSubjectToTopicCmd.SubjectId, envlp.BindSubjectToTopicCmd.TopicId);
+                    await _channelLogic.BindSubjectToTopicAsync(envlp.BindSubjectToTopicCmd.Contacts, envlp.BindSubjectToTopicCmd.TopicId);
                 }
                 catch (Exception e)
                 {
-                    _log.Error("Bind subject to topic error", e).Write();
+                    _log?.Error("Bind subject to topic error", e).Write();
                 }
             }
 
@@ -73,11 +73,11 @@ namespace MyLab.Notifier.ChannelAdapter
             {
                 try
                 {
-                    await _channelLogic.BindSubjectToTopicAsync(envlp.UnbindSubjectFromTopicCmd.SubjectId, envlp.UnbindSubjectFromTopicCmd.TopicId);
+                    await _channelLogic.UnbindSubjectFromTopicAsync(envlp.UnbindSubjectFromTopicCmd.Contacts, envlp.UnbindSubjectFromTopicCmd.TopicId);
                 }
                 catch (Exception e)
                 {
-                    _log.Error("Unbind subject from topic error", e).Write();
+                    _log?.Error("Unbind subject from topic error", e).Write();
                 }
             }
         }
