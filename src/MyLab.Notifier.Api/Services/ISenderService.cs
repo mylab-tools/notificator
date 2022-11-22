@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using LinqToDB;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MyLab.Db;
 using MyLab.Log.Dsl;
-using MyLab.Notifier.Options;
+using MyLab.Notifier.Api.Options;
 using MyLab.Notifier.Share.Dal;
 using MyLab.Notifier.Share.Models;
 using MyLab.RabbitClient.Publishing;
 
-namespace MyLab.Notifier.Services
+namespace MyLab.Notifier.Api.Services
 {
     public interface ISenderService
     {

@@ -6,10 +6,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MyLab.Db;
-using MyLab.Notifier.Services;
+using MyLab.Notifier.Api.Services;
 using MyLab.RabbitClient;
 
-namespace MyLab.Notifier
+namespace MyLab.Notifier.Api
 {
     public class Startup
     {
@@ -24,9 +24,10 @@ namespace MyLab.Notifier
         public void ConfigureServices(IServiceCollection services)
         {
             services
-                .AddDbTools(Configuration, new MySqlDataProvider(ProviderName.MySql))
+                .AddDbTools(new MySqlDataProvider(ProviderName.MySql))
                 .AddRabbit(RabbitConnectionStrategy.Background)
                 .ConfigureRabbit(Configuration)
+                .ConfigureDbTools(Configuration)
                 .AddSingleton<ISenderService, SenderService>()
                 .AddControllers()
                 .AddNewtonsoftJson();

@@ -8,13 +8,12 @@ using MyLab.RabbitClient.Consuming;
 
 namespace MyLab.Notifier.ChannelAdapter
 {
-    public class NotifierEnvelopConsumer<TChannel> : RabbitConsumer<EnvelopMqDto>
-        where TChannel : INotifierChannel
+    public class NotifierEnvelopConsumer : RabbitConsumer<EnvelopMqDto>
     {
-        private readonly TChannel _channelLogic;
+        private readonly INotifierChannel _channelLogic;
         private readonly IDslLogger _log;
 
-        public NotifierEnvelopConsumer(TChannel channelLogic, ILogger<NotifierEnvelopConsumer<TChannel>> logger = null)
+        public NotifierEnvelopConsumer(INotifierChannel channelLogic, ILogger<NotifierEnvelopConsumer> logger = null)
         {
             _channelLogic = channelLogic;
             _log = logger?.Dsl();

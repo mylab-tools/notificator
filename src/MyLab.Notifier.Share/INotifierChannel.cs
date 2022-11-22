@@ -9,24 +9,24 @@ namespace MyLab.Notifier.Share
     public interface INotifierChannel
     {
         /// <summary>
-        /// Sends notification to contacts
+        /// Override to send notification to contacts
         /// </summary>
         Task SendNotificationToContactsAsync(string[] contacts, NotificationDto notification);
 
         /// <summary>
-        /// Sends notification to subject
+        /// Override to send notification to topic
         /// </summary>
         Task SendNotificationToTopicAsync(string topicId, NotificationDto notification);
 
         /// <summary>
-        /// Binds contacts to topic
+        /// Override to implement logic for topic to contacts binding
         /// </summary>
         /// <param name="contacts">contacts</param>
         /// <param name="topicId">topic identifier</param>
         Task BindSubjectToTopicAsync(string[] contacts, string topicId);
 
         /// <summary>
-        /// Unbinds contacts from topic
+        /// Override to implement logic for topic from contacts unbinding
         /// </summary>
         /// <param name="contacts">contacts</param>
         /// <param name="topicId">topic identifier</param>

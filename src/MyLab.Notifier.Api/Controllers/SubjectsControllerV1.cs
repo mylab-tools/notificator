@@ -1,12 +1,11 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using LinqToDB;
 using Microsoft.AspNetCore.Mvc;
 using MyLab.Db;
 using MyLab.Notifier.Share.Dal;
 
-namespace MyLab.Notifier.Controllers
+namespace MyLab.Notifier.Api.Controllers
 {
     [Route("v1/subjects/{subject_id}")]
     [ApiController]

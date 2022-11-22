@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using LinqToDB;
 using LinqToDB.Data;
@@ -8,7 +7,7 @@ using MyLab.Db;
 using MyLab.Notifier.Share.Dal;
 using MyLab.Notifier.Share.Models;
 
-namespace MyLab.Notifier.Controllers
+namespace MyLab.Notifier.Api.Controllers
 {
     [Route("v1/contacts")]
     [ApiController]

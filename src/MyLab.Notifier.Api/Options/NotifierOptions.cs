@@ -1,4 +1,4 @@
-﻿namespace MyLab.Notifier.Options
+﻿namespace MyLab.Notifier.Api.Options
 {
     public class NotifierOptions
     {

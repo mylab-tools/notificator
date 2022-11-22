@@ -1,10 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using MyLab.Notifier.Services;
+using MyLab.Notifier.Api.Services;
 using MyLab.Notifier.Share.Models;
 
-namespace MyLab.Notifier.Controllers
+namespace MyLab.Notifier.Api.Controllers
 {
     [Route("v1/notifications")]
     [ApiController]

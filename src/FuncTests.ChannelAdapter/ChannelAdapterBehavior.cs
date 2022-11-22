@@ -41,7 +41,7 @@ namespace FuncTests.ChannelAdapter
                     }
             );
 
-            var consumer = new NotifierEnvelopConsumer<INotifierChannel>(channelMock.Object);
+            var consumer = new NotifierEnvelopConsumer(channelMock.Object);
 
             var config = (IConfiguration)new ConfigurationBuilder()
                 .Build();
@@ -107,7 +107,7 @@ namespace FuncTests.ChannelAdapter
                 }
             );
 
-            var consumer = new NotifierEnvelopConsumer<INotifierChannel>(channelMock.Object);
+            var consumer = new NotifierEnvelopConsumer(channelMock.Object);
 
             var config = (IConfiguration)new ConfigurationBuilder()
                 .Build();
@@ -172,7 +172,7 @@ namespace FuncTests.ChannelAdapter
                     }
             );
 
-            var consumer = new NotifierEnvelopConsumer<INotifierChannel>(channelMock.Object);
+            var consumer = new NotifierEnvelopConsumer(channelMock.Object);
 
             var config = (IConfiguration)new ConfigurationBuilder()
                 .Build();
@@ -238,7 +238,7 @@ namespace FuncTests.ChannelAdapter
                 }
             );
 
-            var consumer = new NotifierEnvelopConsumer<INotifierChannel>(channelMock.Object);
+            var consumer = new NotifierEnvelopConsumer(channelMock.Object);
 
             var config = (IConfiguration)new ConfigurationBuilder()
                 .Build();
