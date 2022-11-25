@@ -3,11 +3,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using MyLab.Notifier.ChannelAdapter;
-using MyLab.Notifier.MailSender.Options;
-using MyLab.Notifier.MailSender.Services;
+using MyLab.Db;
 
-namespace MyLab.Notifier.MailSender
+namespace MyLab.Notifier.EmailSender
 {
     public class Startup
     {
@@ -22,8 +20,10 @@ namespace MyLab.Notifier.MailSender
         public void ConfigureServices(IServiceCollection srv)
         {
             //srv.AddControllers();
-            srv.AddMailSender()
-                .ConfigureMailSender(Configuration);
+            srv.AddMailSenderLogic()
+                .ConfigureMailSender(Configuration)
+                .ConfigureDbTools(Configuration)
+                .ConfigureRabbit(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

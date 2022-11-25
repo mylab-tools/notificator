@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 using LinqToDB;
@@ -6,25 +5,25 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MyLab.Db;
 using MyLab.Log.Dsl;
-using MyLab.Notifier.MailSender.Options;
-using MyLab.Notifier.MailSender.Services;
+using MyLab.Notifier.EmailSender.Options;
+using MyLab.Notifier.EmailSender.Services;
 using MyLab.Notifier.Share;
 using MyLab.Notifier.Share.Dal;
 using MyLab.Notifier.Share.Models;
 
-namespace MyLab.Notifier.MailSender
+namespace MyLab.Notifier.EmailSender
 {
     class NotifierEmailChannelLogic : INotifierChannel
     {
         private readonly IEmailSender _emailSender;
-        private readonly MailChannelOptions _options;
+        private readonly EmailChannelOptions _options;
         private readonly IDslLogger _log;
         private readonly IDbManager _db;
 
         public NotifierEmailChannelLogic(
             IEmailSender emailSender,
             IDbManager db,
-            IOptions<MailChannelOptions> options, 
+            IOptions<EmailChannelOptions> options, 
             ILogger<NotifierEmailChannelLogic> logger)
             :this(emailSender, db,options.Value, logger)
         {
@@ -34,7 +33,7 @@ namespace MyLab.Notifier.MailSender
         public NotifierEmailChannelLogic(
             IEmailSender emailSender,
             IDbManager db,
-            MailChannelOptions options, 
+            EmailChannelOptions options, 
             ILogger<NotifierEmailChannelLogic> logger)
         {
             _emailSender = emailSender;

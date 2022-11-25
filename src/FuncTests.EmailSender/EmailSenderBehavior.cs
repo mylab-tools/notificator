@@ -1,16 +1,14 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using LinqToDB;
 using LinqToDB.Data;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Moq;
 using MyLab.Db;
 using MyLab.DbTest;
 using MyLab.Notifier.ChannelAdapter;
-using MyLab.Notifier.MailSender;
-using MyLab.Notifier.MailSender.Services;
+using MyLab.Notifier.EmailSender;
+using MyLab.Notifier.EmailSender.Services;
 using MyLab.Notifier.Share.Dal;
 using MyLab.Notifier.Share.Models;
 using MyLab.RabbitClient;
@@ -18,14 +16,14 @@ using MyLab.RabbitClient.Publishing;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace FuncTests.MailSender
+namespace FuncTests.EmailSender
 {
-    public class MailSenderBehavior : IClassFixture<TmpDbFixture>
+    public class EmailSenderBehavior : IClassFixture<TmpDbFixture>
     {
         private readonly ITestOutputHelper _output;
         private readonly TmpDbFixture _db;
 
-        public MailSenderBehavior(
+        public EmailSenderBehavior(
             TmpDbFixture dbFixture,
             ITestOutputHelper output)
         {
@@ -50,12 +48,12 @@ namespace FuncTests.MailSender
                     .AddFilter(l => true)
                     .AddXUnit(_output)
                 )
-                .AddMailSender()
+                .AddMailSenderLogic()
                 .AddRabbitEmulation()
                 .AddSingleton<IEmailSender>(testMailSender)
                 .AddSingleton(db.Object)
-
-                .Configure<NotifierChannelAdapterOptions>(opt => opt.MqQueue = "qox")
+                
+                .ConfigureNotifierChannelLogic(opt => opt.MqQueue = "qox")
                 .ConfigureRabbit(opt => opt.DefaultPub = new PublishOptions{RoutingKey = "qox"})
 
                 .BuildServiceProvider();
@@ -130,12 +128,12 @@ namespace FuncTests.MailSender
                     .AddFilter(l => true)
                     .AddXUnit(_output)
                 )
-                .AddMailSender()
+                .AddMailSenderLogic()
                 .AddRabbitEmulation()
                 .AddSingleton<IEmailSender>(testMailSender)
                 .AddSingleton(db)
 
-                .Configure<NotifierChannelAdapterOptions>(opt => opt.MqQueue = "qox")
+                .ConfigureNotifierChannelLogic(opt => opt.MqQueue = "qox")
                 .ConfigureRabbit(opt => opt.DefaultPub = new PublishOptions { RoutingKey = "qox" })
 
                 .BuildServiceProvider();

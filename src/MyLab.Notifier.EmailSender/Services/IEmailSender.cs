@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace MyLab.Notifier.MailSender.Services
+namespace MyLab.Notifier.EmailSender.Services
 {
     interface IEmailSender
     {

@@ -1,12 +1,11 @@
 using System.ComponentModel.DataAnnotations;
-using MyLab.Notifier.ChannelAdapter;
 
-namespace MyLab.Notifier.MailSender.Options
+namespace MyLab.Notifier.EmailSender.Options
 {
     /// <summary>
-    /// Contains Mail channel options
+    /// Contains Email channel options
     /// </summary>
-    class MailChannelOptions : NotifierChannelAdapterOptions
+    public class EmailChannelOptions
     {
         /// <summary>
         /// Defines maximum hidden copies number (BCC: blind carbon copy)

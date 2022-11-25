@@ -1,6 +1,8 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MyLab.Notifier.Share;
+using MyLab.RabbitClient;
 
 namespace MyLab.Notifier.ChannelAdapter
 {
@@ -35,10 +37,17 @@ namespace MyLab.Notifier.ChannelAdapter
         public static IServiceCollection ConfigureNotifierChannelLogic(this IServiceCollection srv,
             IConfiguration configuration, string sectionName = SectionName)
         {
-            srv.ConfigureRabbit(configuration)
-                .AddOptions<NotifierChannelAdapterOptions>()
+            srv.AddOptions<NotifierChannelAdapterOptions>()
                 .Bind(configuration.GetSection(sectionName))
                 .ValidateDataAnnotations();
+
+            return srv;
+        }
+
+        public static IServiceCollection ConfigureNotifierChannelLogic(this IServiceCollection srv,
+            Action<NotifierChannelAdapterOptions> configChannelAdapter)
+        {
+            srv.Configure(configChannelAdapter);
 
             return srv;
         }

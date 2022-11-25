@@ -17,9 +17,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyLab.Notifier.ChannelAdapt
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FuncTests.ChannelAdapter", "FuncTests.ChannelAdapter\FuncTests.ChannelAdapter.csproj", "{B087BD95-7A1F-4356-B527-DE5DE01AFBD4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyLab.Notifier.MailSender", "MyLab.Notifier.MailSender\MyLab.Notifier.MailSender.csproj", "{88AF0A9B-F0F6-4CC8-B965-D885333484DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyLab.Notifier.EmailSender", "MyLab.Notifier.EmailSender\MyLab.Notifier.EmailSender.csproj", "{88AF0A9B-F0F6-4CC8-B965-D885333484DC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuncTests.MailSender", "FuncTests.MailSender\FuncTests.MailSender.csproj", "{0A630CC2-1F96-4589-AFE0-76F4086F0002}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuncTests.EmailSender", "FuncTests.EmailSender\FuncTests.EmailSender.csproj", "{0A630CC2-1F96-4589-AFE0-76F4086F0002}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{3A0DAFC3-D780-4924-A821-39557AA2BFD5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Senders", "Senders", "{F686300F-4337-498B-A4F8-DAC240B22758}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationTests.EmailSender", "IntegrationTests.EmailSender\IntegrationTests.EmailSender.csproj", "{4480F804-8886-4A79-A3EA-580EEEAE1F42}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,9 +69,21 @@ Global
 		{0A630CC2-1F96-4589-AFE0-76F4086F0002}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0A630CC2-1F96-4589-AFE0-76F4086F0002}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0A630CC2-1F96-4589-AFE0-76F4086F0002}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4480F804-8886-4A79-A3EA-580EEEAE1F42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4480F804-8886-4A79-A3EA-580EEEAE1F42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4480F804-8886-4A79-A3EA-580EEEAE1F42}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4480F804-8886-4A79-A3EA-580EEEAE1F42}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5B98B3E4-63B1-442C-BA18-327EA88D78A0} = {3A0DAFC3-D780-4924-A821-39557AA2BFD5}
+		{E3365C9A-3491-449B-9347-57ABC7DE9F1D} = {3A0DAFC3-D780-4924-A821-39557AA2BFD5}
+		{B087BD95-7A1F-4356-B527-DE5DE01AFBD4} = {3A0DAFC3-D780-4924-A821-39557AA2BFD5}
+		{88AF0A9B-F0F6-4CC8-B965-D885333484DC} = {F686300F-4337-498B-A4F8-DAC240B22758}
+		{0A630CC2-1F96-4589-AFE0-76F4086F0002} = {3A0DAFC3-D780-4924-A821-39557AA2BFD5}
+		{4480F804-8886-4A79-A3EA-580EEEAE1F42} = {3A0DAFC3-D780-4924-A821-39557AA2BFD5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {778FC822-D7BA-4AB9-B182-3E537EDB19A4}

@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MyLab.RabbitClient" Version="2.11.24" />
+    <PackageReference Include="MyLab.RabbitClient" Version="2.11.25" />
   </ItemGroup>
 
   <ItemGroup>

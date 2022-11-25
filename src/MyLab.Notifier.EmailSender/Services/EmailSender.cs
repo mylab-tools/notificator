@@ -3,9 +3,9 @@ using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
-using MyLab.Notifier.MailSender.Options;
+using MyLab.Notifier.EmailSender.Options;
 
-namespace MyLab.Notifier.MailSender.Services
+namespace MyLab.Notifier.EmailSender.Services
 {
     class EmailSender : IEmailSender
     {

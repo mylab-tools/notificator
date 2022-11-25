@@ -1,38 +1,50 @@
-﻿using LinqToDB;
+﻿using System;
+using LinqToDB;
 using LinqToDB.DataProvider.MySql;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MyLab.Db;
 using MyLab.Notifier.ChannelAdapter;
-using MyLab.Notifier.MailSender.Options;
-using MyLab.Notifier.MailSender.Services;
+using MyLab.Notifier.EmailSender.Options;
+using MyLab.Notifier.EmailSender.Services;
 
-namespace MyLab.Notifier.MailSender
+namespace MyLab.Notifier.EmailSender
 {
     public static class MailSenderApp
     {
         public const string SmtpSectionName = "Smtp";
         
-        public static IServiceCollection AddMailSender(this IServiceCollection srv)
+        public static IServiceCollection AddMailSenderLogic(this IServiceCollection srv)
         {
             return srv.AddNotifierChannelLogic<NotifierEmailChannelLogic>()
-                .AddSingleton<IEmailSender, EmailSender>()
+                .AddSingleton<IEmailSender, Services.EmailSender>()
                 .AddDbTools(new MySqlDataProvider(ProviderName.MySql));
         }
 
         public static IServiceCollection ConfigureMailSender(this IServiceCollection srv, IConfiguration configuration)
         {
-            srv.ConfigureNotifierChannelLogic(configuration)
-                .ConfigureDbTools(configuration);
+            srv.ConfigureNotifierChannelLogic(configuration);
 
             srv.AddOptions<SmtpOptions>()
                 .Bind(configuration.GetSection(SmtpSectionName))
                 .ValidateDataAnnotations();
 
-            srv.AddOptions<MailChannelOptions>()
+            srv.AddOptions<EmailChannelOptions>()
                 .Bind(configuration.GetSection(ChannelAdapter.AppIntegration.SectionName))
                 .ValidateDataAnnotations();
 
+            return srv;
+        }
+
+        public static IServiceCollection ConfigureMailSender(this IServiceCollection srv,
+            Action<EmailChannelOptions> configMailChannel,
+            Action<SmtpOptions> configSmtp = null)
+        {
+            srv.Configure(configMailChannel);
+
+            if (configSmtp != null)
+                srv.Configure(configSmtp);
+    
             return srv;
         }
     }

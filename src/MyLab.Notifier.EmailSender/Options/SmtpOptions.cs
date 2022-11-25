@@ -1,11 +1,11 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace MyLab.Notifier.MailSender.Options
+namespace MyLab.Notifier.EmailSender.Options
 {
     /// <summary>
     /// Contains SMTP connection options
     /// </summary>
-    class SmtpOptions
+    public class SmtpOptions
     {
         /// <summary>
         /// Server host name
